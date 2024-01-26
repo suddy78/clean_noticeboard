@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+import torch
+import torch.nn as nn
+from transformers import BertTokenizer, BertForSequenceClassification, BertConfig
+import numpy as np
 
 #Question: 제목은 400자까지, 내용은 제한 없음, 생성 시간 및 날짜 확인
 class Question(models.Model):
@@ -9,7 +13,6 @@ class Question(models.Model):
     content = models.TextField()
     create_date = models.DateTimeField()
     voter = models.ManyToManyField(User, related_name='voter_question') # 추천인 추가
-
     def __str__(self):
         return self.subject
 

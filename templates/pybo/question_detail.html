@@ -51,6 +51,16 @@
     <div class="card my-3">
         <div class="card-body">
             <div class="card-text">{{ answer.content|mark }}</div>
+            <!-- 감정 분석 결과에 따라 이모지 표시 -->
+            {% for result in emotion_results %}
+                {% if result.answer_id == answer.id %}
+                    {% if result.emotion == 0 %}
+                        <div class="emoji">&#128515;</div> <!-- 긍정적인 이모지 -->
+                    {% elif result.emotion == 1 %}
+                        <div class="emoji">&#128577;</div> <!-- 부정적인 이모지 -->
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
             <div class="d-flex justify-content-end">
                 {% if answer.modify_date %}
             <div class="badge bg-light text-dark p-2 text-start mx-3">
