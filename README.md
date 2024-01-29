@@ -1,1 +1,1 @@
-# clean_noticeboard
+# 깨끗한 게시판 만들기
