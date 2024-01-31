@@ -68,20 +68,14 @@ lst = ["fuck","shit","18nom","18num","18ㅅㅐㄲㅣ","18ㅅㅐ끼","18ㅅㅔㅋ
     "허벌보지","허벌자식","허벌자지","허어벌","헐렁보지","혀로보지핧기","호냥년","호로","호로새끼","호로자","호로자슥","호로자식","호로잡","호루자슥","화낭년","화냥년","후.려","후라덜",
     "후라덜넘","후려","후우자앙","후우장","후장","후장꽂아","후장뚫어","후장뚫어18세키","꽃휴","sibal","미칭럼","ㅂㅅ","걔섀","느금","느금마","늑음","ㅈ같","ㅈ같네","ㅗ"]    
 
+# 새로 다운로드한 모델 불러오기
+model = BertForSequenceClassification.from_pretrained("bert-base-uncased")
+
+# 모델 구조 변경: 임베딩 레이어의 크기를 상태 사전과 일치시킴
+model.bert.embeddings.word_embeddings = torch.nn.Embedding(119547, 768, padding_idx=0)
+
 # 상태 사전 불러오기
 state_dict = torch.load('C:/dev/miniproject/mysite/mysite/model/model_emotion.pth', map_location=torch.device('cpu'))
-
-# 상태 사전에서 임베딩 가중치 가져오기
-embeddings_weight = state_dict['bert.embeddings.word_embeddings.weight']
-
-# 새로운 임베딩 가중치 크기로 조정
-new_embeddings_weight = embeddings_weight[:30522, :]
-
-# 상태 사전에서 임베딩 가중치 업데이트
-state_dict['bert.embeddings.word_embeddings.weight'] = new_embeddings_weight
-
-# 새로운 모델 불러오기
-model = BertForSequenceClassification.from_pretrained("bert-base-uncased")
 
 # 모델의 다른 가중치들을 불러온 상태 사전으로 업데이트
 model.load_state_dict(state_dict, strict=False)
